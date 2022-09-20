@@ -23,6 +23,9 @@ builder.Services.AddScoped<IRegionRepository, RegionRepository>();
 // Inject Walk Repository
 builder.Services.AddScoped<IWalkRepository, WalkRepository>();
 
+// Inject Walk Difficulty Repository
+builder.Services.AddScoped<IWalkDifficultyRepository, WalkDifficultyRepository>();
+
 // Inject AutoMapper (Profiles for DTO)
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
