@@ -20,6 +20,9 @@ builder.Services.AddDbContext<NZWalksDbContext>(options =>
 // Inject Region Repository
 builder.Services.AddScoped<IRegionRepository, RegionRepository>();
 
+// Inject Walk Repository
+builder.Services.AddScoped<IWalkRepository, WalkRepository>();
+
 // Inject AutoMapper (Profiles for DTO)
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
