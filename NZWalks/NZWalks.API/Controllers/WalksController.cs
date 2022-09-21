@@ -95,7 +95,6 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id,[FromBody] Models.DTO.WalkRequest request)
         {
-            // validate
             if (!(await ValidateUpdateWalkAsync(request)))
             {
                 return BadRequest(ModelState);
@@ -125,22 +124,6 @@ namespace NZWalks.API.Controllers
 
         private async Task<bool> ValidateAddWalkAsync(Models.DTO.WalkRequest walkRequest)
         {
-            if (walkRequest is null)
-            {
-                ModelState.AddModelError(nameof(walkRequest), string.Format("{0} must contain Walk data.", nameof(walkRequest)));
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(walkRequest.Name))
-            {
-                ModelState.AddModelError(nameof(walkRequest.Name), string.Format("{0} cannot be null or empty or white space.", nameof(walkRequest.Name)));
-            }
-
-            if (walkRequest.Length <= 0)
-            {
-                ModelState.AddModelError(nameof(walkRequest.Length), string.Format("{0} cannot be less or equal to zero.", nameof(walkRequest.Length)));
-            }
-
             var region = await regionRepository.GetAsync(walkRequest.RegionId);
             if (region is null)
             {
@@ -162,23 +145,7 @@ namespace NZWalks.API.Controllers
         }
 
         private async Task<bool> ValidateUpdateWalkAsync(Models.DTO.WalkRequest walkRequest)
-        {
-            if (walkRequest is null)
-            {
-                ModelState.AddModelError(nameof(walkRequest), string.Format("{0} must contain Walk data.", nameof(walkRequest)));
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(walkRequest.Name))
-            {
-                ModelState.AddModelError(nameof(walkRequest.Name), string.Format("{0} cannot be null or empty or white space.", nameof(walkRequest.Name)));
-            }
-
-            if (walkRequest.Length <= 0)
-            {
-                ModelState.AddModelError(nameof(walkRequest.Length), string.Format("{0} cannot be less or equal to zero.", nameof(walkRequest.Length)));
-            }
-
+        {          
             var region = await regionRepository.GetAsync(walkRequest.RegionId);
             if (region is null)
             {

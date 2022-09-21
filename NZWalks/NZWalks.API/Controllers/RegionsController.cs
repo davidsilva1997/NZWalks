@@ -49,12 +49,6 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.RegionRequest regionRequest)
         {
-            // Validate the request
-            if (!ValidateAddRegionAsync(regionRequest))
-            {
-                return BadRequest(ModelState);
-            }
-
             // Convert to Domain model
             var region = new Models.Domain.Region()
             {
@@ -95,12 +89,6 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] Models.DTO.RegionRequest regionRequest)
         {
-            // validate region
-            if (!ValidateUpdateRegionAsync(regionRequest))
-            {
-                return BadRequest(ModelState);
-            }
-
             // Convert to Domain model
             var updatedRegion = new Models.Domain.Region()
             {
@@ -123,81 +111,5 @@ namespace NZWalks.API.Controllers
 
             return Ok(regionDTO);
         }
-
-        #region Private methods
-
-        private bool ValidateAddRegionAsync(Models.DTO.RegionRequest regionRequest)
-        {
-            if (regionRequest is null)
-            {
-                ModelState.AddModelError(nameof(regionRequest), string.Format("{0} must contain Region data.", nameof(regionRequest)));
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(regionRequest.Code))
-            {
-                ModelState.AddModelError(nameof(regionRequest.Code), string.Format("{0} cannot be null or empty or white space.", nameof(regionRequest.Code)));
-            }
-
-            if (string.IsNullOrWhiteSpace(regionRequest.Name))
-            {
-                ModelState.AddModelError(nameof(regionRequest.Name), string.Format("{0} cannot be null or empty or white space.", nameof(regionRequest.Name)));
-            }
-
-            if (regionRequest.Area <= 0)
-            {
-                ModelState.AddModelError(nameof(regionRequest.Area), string.Format("{0} cannot be less or equal to zero.", nameof(regionRequest.Area)));
-            }
-
-            if (regionRequest.Population < 0)
-            {
-                ModelState.AddModelError(nameof(regionRequest.Population), string.Format("{0} cannot be less than zero.", nameof(regionRequest.Population)));
-            }
-
-            if (ModelState.ErrorCount > 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool ValidateUpdateRegionAsync(Models.DTO.RegionRequest regionRequest)
-        {
-            if (regionRequest is null)
-            {
-                ModelState.AddModelError(nameof(regionRequest), string.Format("{0} must contain Region data.", nameof(regionRequest)));
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(regionRequest.Code))
-            {
-                ModelState.AddModelError(nameof(regionRequest.Code), string.Format("{0} cannot be null or empty or white space.", nameof(regionRequest.Code)));
-            }
-
-            if (string.IsNullOrWhiteSpace(regionRequest.Name))
-            {
-                ModelState.AddModelError(nameof(regionRequest.Name), string.Format("{0} cannot be null or empty or white space.", nameof(regionRequest.Name)));
-            }
-
-            if (regionRequest.Area <= 0)
-            {
-                ModelState.AddModelError(nameof(regionRequest.Area), string.Format("{0} cannot be less or equal to zero.", nameof(regionRequest.Area)));
-            }
-
-            if (regionRequest.Population < 0)
-            {
-                ModelState.AddModelError(nameof(regionRequest.Population), string.Format("{0} cannot be less than zero.", nameof(regionRequest.Population)));
-            }
-
-            if (ModelState.ErrorCount > 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        #endregion
     }
 }

@@ -50,11 +50,6 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWalkDifficultyAsync([FromBody] Models.DTO.WalkDifficultyRequest walkDifficultyRequest)
         {
-            if (!ValidateAddWalkDifficultyAsync(walkDifficultyRequest))
-            {
-                return BadRequest(ModelState);
-            }
-
             var walkDifficulty = new Models.Domain.WalkDifficulty()
             {
                 Code = walkDifficultyRequest.Code
@@ -87,11 +82,6 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateWalkDifficultyAsync([FromRoute] Guid id, [FromBody] Models.DTO.WalkDifficultyRequest walkDifficultyRequest)
         {
-            if (!ValidateUpdateWalkDifficultyAsync(walkDifficultyRequest))
-            {
-                return BadRequest(ModelState);
-            }
-
             var updatedWalkDifficulty = new Models.Domain.WalkDifficulty()
             {
                 Code = walkDifficultyRequest.Code
@@ -108,51 +98,5 @@ namespace NZWalks.API.Controllers
 
             return Ok(walkDifficultyDTO);
         }
-
-        #region Private methods
-
-        private bool ValidateAddWalkDifficultyAsync(Models.DTO.WalkDifficultyRequest walkDifficultyRequest)
-        {
-            if (walkDifficultyRequest is null)
-            {
-                ModelState.AddModelError(nameof(walkDifficultyRequest), string.Format("{0} must contain Walk Difficulty data.", nameof(walkDifficultyRequest)));
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(walkDifficultyRequest.Code))
-            {
-                ModelState.AddModelError(nameof(walkDifficultyRequest.Code), string.Format("{0} cannot be null or empty or white space.", nameof(walkDifficultyRequest.Code)));
-            }
-
-            if (ModelState.ErrorCount > 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool ValidateUpdateWalkDifficultyAsync(Models.DTO.WalkDifficultyRequest walkDifficultyRequest)
-        {
-            if (walkDifficultyRequest is null)
-            {
-                ModelState.AddModelError(nameof(walkDifficultyRequest), string.Format("{0} must contain Walk Difficulty data.", nameof(walkDifficultyRequest)));
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(walkDifficultyRequest.Code))
-            {
-                ModelState.AddModelError(nameof(walkDifficultyRequest.Code), string.Format("{0} cannot be null or empty or white space.", nameof(walkDifficultyRequest.Code)));
-            }
-
-            if (ModelState.ErrorCount > 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        #endregion
     }
 }
