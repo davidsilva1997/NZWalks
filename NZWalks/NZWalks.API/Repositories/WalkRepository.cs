@@ -37,7 +37,7 @@ namespace NZWalks.API.Repositories
             await nZWalksDbContext.SaveChangesAsync();
 
             return walk;
-        }        
+        }
 
         public async Task<Walk> RemoveAsync(Guid id)
         {
